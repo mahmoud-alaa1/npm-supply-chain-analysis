@@ -1,0 +1,13 @@
+{
+  "name": "npm-supply-chain-malware-analysis",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static analysis and deobfuscation of a suspicious npm supply-chain JavaScript sample.",
+  "type": "module",
+  "scripts": {
+    "deobfuscate": "node src/tools/deobfuscate.js"
+  },
+  "devDependencies": {
+    "webcrack": "^2.16.0"
+  }
+}
