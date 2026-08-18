@@ -1,6 +1,6 @@
 # npm Supply-Chain Malware Analysis
 
-Static analysis and deobfuscation of a suspicious JavaScript payload discovered inside a malicious npm package.
+Static analysis and deobfuscation of a suspicious JavaScript payload discovered inside a malicious npm package during a routine Pull Request review.
 
 > ⚠️ **Disclaimer**
 >
@@ -11,11 +11,11 @@ Static analysis and deobfuscation of a suspicious JavaScript payload discovered 
 
 ## Overview
 
-During the security analysis of an npm package, a heavily obfuscated JavaScript payload was discovered embedded inside the **`postcss.config.mjs`** configuration file.
+While conducting a routine Pull Request (PR) code review, I noticed suspicious, heavily obfuscated JavaScript embedded directly inside the **`postcss.config.mjs`** configuration file of an incoming npm dependency change.
 
-Because `postcss.config.mjs` is automatically imported and executed during standard JavaScript/frontend build pipelines (such as PostCSS, Vite, Next.js, and Webpack), embedding malicious code within it allows full command execution during development or CI/CD builds without raising immediate suspicion.
+Because `postcss.config.mjs` is automatically imported and executed during standard frontend build pipelines (such as PostCSS, Vite, Next.js, and Webpack), hiding malicious logic here allows arbitrary code execution during local development or CI/CD runs without raising immediate red flags.
 
-Instead of executing the code, I treated the sample as an unknown artifact and performed static analysis and deobfuscation to understand its underlying mechanics and capabilities.
+Instead of running the code locally, I treated the sample as an active threat artifact and conducted static analysis and deobfuscation to dissect its behavior and infrastructure.
 
 The analysis revealed a staged malware loader that:
 
@@ -33,7 +33,7 @@ The combination of build-config hijacking (`postcss.config.mjs`), blockchain-ass
 ## Analysis Workflow
 
 ```text
-Suspicious npm package (postcss.config.mjs)
+Routine PR Review (Suspicious postcss.config.mjs)
                  │
                  ▼
        Obfuscated JavaScript
@@ -47,7 +47,7 @@ String-table / control-flow reconstruction
        Deobfuscated JavaScript
                  │
                  ▼
-         Behavior Analysis
+          Behavior Analysis
                  │
                  ├── Ethereum RPC (Dead Drop Resolver)
                  ├── Transaction discovery & address parsing
@@ -55,4 +55,3 @@ String-table / control-flow reconstruction
                  ├── HTTP payload retrieval (Sec-V / x-payload-b64)
                  ├── Base64 / XOR payload decryption
                  └── Dynamic execution (eval / detached node process)
-```
